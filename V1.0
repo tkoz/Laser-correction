@@ -1,4 +1,3 @@
-// Include the necessary libraries
 #include <math.h>
 
 // Define the correction factors (replace with your own values)
@@ -15,8 +14,14 @@ float current_y = 10;
 float desired_x = 20;
 float desired_y = 20;
 
+// Define the distance between the mirrors and the build plate
+float mirror_distance_to_build_plate = 100; // Replace with your own value
+
+// Define the maximum step size for linear interpolation
+float max_step_size = 1; // Replace with your own value
+
 // Define the correction function
-void correct_mirror_angles(float& mirror_x_angle, float& mirror_y_angle, float x_correction_factor, float y_correction_factor, float current_x, float current_y, float desired_x, float desired_y) {
+void correct_mirror_angles(float& mirror_x_angle, float& mirror_y_angle, float x_correction_factor, float y_correction_factor, float current_x, float current_y, float desired_x, float desired_y, float mirror_distance_to_build_plate) {
   // Calculate the difference between the current and desired positions
   float delta_x = desired_x - current_x;
   float delta_y = desired_y - current_y;
@@ -26,8 +31,8 @@ void correct_mirror_angles(float& mirror_x_angle, float& mirror_y_angle, float x
   delta_y *= y_correction_factor;
 
   // Calculate the mirror angles using inverse trig functions
-  mirror_x_angle = atan(delta_x / (your_mirrors_distance_to_build_plate));
-  mirror_y_angle = atan(delta_y / (your_mirrors_distance_to_build_plate));
+  mirror_x_angle = atan(delta_x / mirror_distance_to_build_plate);
+  mirror_y_angle = atan(delta_y / mirror_distance_to_build_plate);
 }
 
 void setup() {
@@ -40,8 +45,21 @@ void loop() {
   current_y = get_current_y();
 
   // Calculate the corrected mirror angles for the desired position
-  correct_mirror_angles(mirror_x_angle, mirror_y_angle, x_correction_factor, y_correction_factor, current_x, current_y, desired_x, desired_y);
+  correct_mirror_angles(mirror_x_angle, mirror_y_angle, x_correction_factor, y_correction_factor, current_x, current_y, desired_x, desired_y, mirror_distance_to_build_plate);
 
-  // Convert the mirror angles to stepper motor positions and move the printer
-  move_printer_to(mirror_x_angle, mirror_y_angle);
+  // Calculate the number of steps required to move to the desired position
+  float delta_x = desired_x - current_x;
+  float delta_y = desired_y - current_y;
+  float distance = sqrt(delta_x * delta_x + delta_y * delta_y);
+  float max_steps = ceil(distance / max_step_size);
+  float x_step_size = delta_x / max_steps;
+  float y_step_size = delta_y / max_steps;
+
+  // Move the printer in small steps to preserve linearity
+  for (int i = 0; i < max_steps; i++) {
+    float current_x_step = current_x + i * x_step_size;
+    float current_y_step = current_y + i * y_step_size;
+    correct_mirror_angles(mirror_x_angle, mirror_y_angle, x_correction_factor, y_correction_factor, current_x_step, current_y_step, desired_x, desired_y, mirror_distance_to_build_plate);
+    move_printer_to(mirror_x_angle, mirror_y_angle);
+  }
 }
