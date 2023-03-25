@@ -1,0 +1,32 @@
+Template code for this for this closed issue. Not reccomended for production.
+
+[FR] Software correction for laser SLA distortion #6001
+
+"sfj13 commented on Mar 9, 2017
+First off, amazing work on Marlin. I have had a great experience with the firmware and I appreciate all the development that has gone into it.
+
+I am developing a low cost SLA printer using stepper motors and mirrors mounted in a galvanometer scanhead type arrangement to manipulate a laser.
+
+There is a non linear non symmetric distortion that occurs with a galvonometer setup. This is present due to the distance from the mirrors to different points on the build plane changing as the laser moves. The effect is that a square would end up looking parabolic on its sides as if you were to stretch the corners out.
+
+I created a relationship between the mirror angles of a galvanometer type setup and where the laser will hit on the build plane. I am looking for help or advice implementing this correction into Marlin.
+
+If anyone is interested in helping me set this up, my printer is working and ready to test this type of correction.
+
+This could have applications for laser cutters that use a galvanometer for positioning as well.
+
+I am very limited in my coding experience so I am reaching out to see if anyone is interested in this.
+
+I think an implementation would do something like this...
+
+Take the current X and Y coordinates and calculate mirror angles from them.
+Calculate the mirror angles from the coordinates of the destination that is desired.
+Use the difference in mirror angles to calculate the number of steps required to make the move.
+
+For large moves, the move will have to be broken up into smaller moves to preserve a linear interpolation between the two points. If I understand correctly, delta type printers do something similar.
+
+The calculation has four intermediate values that need to be calculated before the mirror angles can be found. These involve inverse tangent and inverse sine calculations and taking the square root as well. Would this be too computation intensive to be calculated as the G code is processed?
+
+I'm trying to do this myself currently but my coding skills are lacking and I don't have detailed knowledge of Marlin.
+
+Thank you for taking the time to read my post and any information is greatly appreciated."
