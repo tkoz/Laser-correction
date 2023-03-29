@@ -1,0 +1,23 @@
+// TODO: ADD Synergy factor formula for multi material manipulation
+
+We start by measuring the raw values of different material properties that contribute to the system's synergy. We collect the following data:
+
+Density: The amount of mass per unit volume of the material Hardness: The material's ability to resist deformation under pressure Elastic Modulus: The material's ability to deform under stress Thermal Conductivity: The material's ability to conduct heat Tensile Strength: The maximum stress that a material can withstand before breaking Melting Temperature: The temperature at which the material changes from solid to liquid Viscosity: The resistance of a fluid to flow Step 2: Normalize the Metrics
+
+We normalize the metrics by applying the min-max normalization technique to each metric, scaling them between -1 and 1. We obtain the following normalized values:
+
+N_Density = (Density - min(Density)) / (max(Density) - min(Density)) N_Hardness = (Hardness - min(Hardness)) / (max(Hardness) - min(Hardness)) N_ElasticModulus = (ElasticModulus - min(ElasticModulus)) / (max(ElasticModulus) - min(ElasticModulus)) N_ThermalConductivity = (ThermalConductivity - min(ThermalConductivity)) / (max(ThermalConductivity) - min(ThermalConductivity)) N_TensileStrength = (TensileStrength - min(TensileStrength)) / (max(TensileStrength) - min(TensileStrength)) N_MeltingTemperature = (MeltingTemperature - min(MeltingTemperature)) / (max(MeltingTemperature) - min(MeltingTemperature)) N_Viscosity = (Viscosity - min(Viscosity)) / (max(Viscosity) - min(Viscosity)) Step 3: Combine Related Metrics
+
+We combine related metrics into single measures as suggested by the Synergy Factor Formula. We obtain the following combined metrics:
+
+N_Structural = (N_Density + N_Hardness + N_ElasticModulus + N_TensileStrength) / 4 N_Thermal = N_ThermalConductivity N_Viscosity = N_Viscosity Step 4: Assign Weights
+
+We assign weights to each metric based on their importance in evaluating the system's synergy. We assume the following weights for our case study:
+
+w1 = 0.35 (N_Structural) w2 = 0.30 (N_Thermal) w3 = 0.35 (N_Viscosity) Step 5: Calculate the Synergy Factor
+
+We calculate the Synergy Factor using the modified formula that uses logarithmic exponential scaling. We obtain the following:
+
+SF = exp(w1 * log(1 + N_Structural)) * exp(w2 * log(1 + N_Thermal)) * exp(w3 * log(1 + N_Viscosity)) SF = exp(0.35 * log(1 + N_Structural)) * exp(0.30 * log(1 + N_Thermal)) * exp(0.35 * log(1 + N_Viscosity))
+
+The final equation of the Synergy Factor Formula represents the material's overall synergy by combining the normalized and weighted metrics using logarithmic exponential scaling. This equation can be evaluated for different materials to determine their synergies and areas of improvement.
