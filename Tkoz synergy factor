@@ -22,3 +22,6 @@ Log_HM = log(1 + HM)
 IE = b1N1 + b2N2 + ... + bnNn
 SF = w1N1 + w2N2 + ... + wnNn + IE
 SF = exp(a * Log_HM)
+
+
+Simplified version to be used with uv resin machines.
