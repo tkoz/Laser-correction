@@ -16,7 +16,6 @@ SF = w1N1 + w2N2 + ... + wnNn + IE
 Apply logarithmic exponential scaling to further amplify the effect of high-performing materials and suppress the effect of low-performing materials:
 SF = exp(a * Log_HM)
 
-
 N_i = (x_i - min(x)) / (max(x) - min(x) + epsilon)
 HM = n / sum(1/(N_i + epsilon))
 Log_HM = log(1 + HM)
